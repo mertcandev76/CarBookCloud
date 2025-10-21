@@ -25,11 +25,11 @@ namespace CarBookCloud.Domain.Entities
         public string? Fuel { get; set; }
         public string? BigImageUrl { get; set; }
 
-        public ICollection<CarFeature> CarFeatures { get; set; } = new List<CarFeature>();
-        public ICollection<CarDescription> CarDescriptions { get; set; } = new List<CarDescription>();
-        public ICollection<CarPricing> CarPricings { get; set; } = new List<CarPricing>();
+        public ICollection<CarFeature> CarFeatures { get; set; } = [];
+        public ICollection<CarDescription> CarDescriptions { get; set; } = [];
+        public ICollection<CarPricing> CarPricings { get; set; } = [];
 
-        public List<object> DomainEvents { get; } = new List<object>();
+        public List<object> DomainEvents { get; } = [];
 
         public Car()
         {

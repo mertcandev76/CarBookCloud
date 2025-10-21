@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace CarBookCloud.Domain.Events
 {
-    public class CarFeatureUpdatedEvent
+    public class CarFeatureUpdatedEvent(int carFeatureID, bool available)
     {
-        public int CarFeatureID { get; }
-        public bool Available { get; }
-        public CarFeatureUpdatedEvent(int carFeatureID, bool available) { CarFeatureID = carFeatureID; Available = available; }
+        public int CarFeatureID { get; } = carFeatureID; public bool Available { get; } = available;
     }
 }

@@ -13,10 +13,16 @@ namespace CarBookCloud.Domain.Entities
         public int CarPricingID { get; set; }
         public int CarID { get; set; }
         public Car? Car { get; set; }
+
         public int PricingID { get; set; }
         public Pricing? Pricing { get; set; }
+
         public Price Amount { get; set; }
 
+        // EF Core için parametresiz constructor
+        private CarPricing() { }
+
+        // Kullanım için constructor
         public CarPricing(Price amount)
         {
             Amount = amount;

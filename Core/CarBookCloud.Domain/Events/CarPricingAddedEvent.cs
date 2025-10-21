@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace CarBookCloud.Domain.Events
 {
-    public class CarPricingAddedEvent
+    public class CarPricingAddedEvent(int carPricingID, decimal amount)
     {
-        public int CarPricingID { get; }
-        public decimal Amount { get; }
-        public CarPricingAddedEvent(int carPricingID, decimal amount) { CarPricingID = carPricingID; Amount = amount; }
+        public int CarPricingID { get; } = carPricingID; public decimal Amount { get; } = amount;
     }
 }

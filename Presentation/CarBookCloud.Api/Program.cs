@@ -1,15 +1,29 @@
+using CarBookCloud.Application.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Connection string'i çek
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+// Null kontrolü yapýlýyor 
+if (string.IsNullOrEmpty(connectionString))
+    throw new InvalidOperationException("DefaultConnection’ adlý connection string yapýlandýrýlmamýþ.");
+
+// Application servislerini ekle (Persistence dahil)
+builder.Services.AddApplicationServices(connectionString);
+
+// Controllers
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// ----------------------
+// HTTP PIPELINE
+// ----------------------
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -17,9 +31,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();

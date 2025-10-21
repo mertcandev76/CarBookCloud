@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\CarBookCloud.Persistence\CarBookCloud.Persistence.csproj" />
+    <ProjectReference Include="..\CarBookCloud.Contracts\CarBookCloud.Contracts.csproj" />
+    <ProjectReference Include="..\CarBookCloud.Domain\CarBookCloud.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

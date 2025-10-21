@@ -25,8 +25,8 @@ namespace CarBookCloud.Contracts.DTOs
     public class CarResultDto: CarCreateDto
     {
         public int CarID { get; set; }
-        public List<CarFeatureResultDto> CarFeatures { get; set; } = new();
-        public List<CarDescriptionResultDto> CarDescriptions { get; set; } = new();
-        public List<CarPricingResultDto> CarPricings { get; set; } = new();
+        public List<CarFeatureResultDto> CarFeatures { get; set; } = [];
+        public List<CarDescriptionResultDto> CarDescriptions { get; set; } = [];
+        public List<CarPricingResultDto> CarPricings { get; set; } = [];
     }
 }

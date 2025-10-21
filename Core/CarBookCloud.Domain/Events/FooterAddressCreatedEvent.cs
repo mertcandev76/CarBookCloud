@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace CarBookCloud.Domain.Events
 {
-    public class FooterAddressCreatedEvent
+    public class FooterAddressCreatedEvent(int footerAddressID)
     {
-        public int FooterAddressID { get; }
-        public FooterAddressCreatedEvent(int footerAddressID) { FooterAddressID = footerAddressID; }
+        public int FooterAddressID { get; } = footerAddressID;
     }
 }

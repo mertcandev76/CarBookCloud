@@ -15,9 +15,9 @@ namespace CarBookCloud.Domain.Entities
     {
         public int BrandID { get; set; }
         public string? Name { get; set; }
-        public ICollection<Car> Cars { get; set; } = new List<Car>();
+        public ICollection<Car> Cars { get; set; } = [];
 
-        public List<object> DomainEvents { get; } = new List<object>();
+        public List<object> DomainEvents { get; } = [];
 
         public Brand()
         {

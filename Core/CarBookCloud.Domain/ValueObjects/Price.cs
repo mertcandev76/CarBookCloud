@@ -8,7 +8,10 @@ namespace CarBookCloud.Domain.ValueObjects
 {
     public class Price
     {
-        public decimal Amount { get; }
+        public decimal Amount { get; private set; }
+
+        // EF Core için parametresiz constructor
+        private Price() { }
 
         public Price(decimal amount)
         {

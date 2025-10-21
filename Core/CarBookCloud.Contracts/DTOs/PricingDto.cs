@@ -20,4 +20,8 @@ namespace CarBookCloud.Contracts.DTOs
     {
         public int PricingID { get; set; }
     }
+    public class PricingWithCarsResultDto : PricingResultDto
+    {
+        public List<CarResultDto> Cars { get; set; } = [];
+    }
 }

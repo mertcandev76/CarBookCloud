@@ -20,6 +20,6 @@ namespace CarBookCloud.Contracts.DTOs
         public int BrandID { get; set; }
         
         // Minimal Car bilgisi
-        public List<CarResultDto> Cars { get; set; } = new();
+        public List<CarResultDto> Cars { get; set; } = [];
     }
 }

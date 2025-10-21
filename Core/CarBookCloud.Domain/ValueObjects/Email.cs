@@ -12,7 +12,7 @@ namespace CarBookCloud.Domain.ValueObjects
 
         public Email(string email)
         {
-            if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
+            if (string.IsNullOrWhiteSpace(email) || !email.Contains('@'))
                 throw new ArgumentException("Geçersiz e-posta adresi.");
             Value = email;
         }

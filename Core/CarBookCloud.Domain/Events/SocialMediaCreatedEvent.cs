@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace CarBookCloud.Domain.Events
 {
-    public class SocialMediaCreatedEvent
+    public class SocialMediaCreatedEvent(int socialMediaID, string? name)
     {
-        public int SocialMediaID { get; }
-        public string? Name { get; }
-        public SocialMediaCreatedEvent(int socialMediaID, string? name) { SocialMediaID = socialMediaID; Name = name; }
+        public int SocialMediaID { get; } = socialMediaID; public string? Name { get; } = name;
     }
 }

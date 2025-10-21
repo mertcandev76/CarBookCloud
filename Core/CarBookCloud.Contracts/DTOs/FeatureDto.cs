@@ -20,5 +20,9 @@ namespace CarBookCloud.Contracts.DTOs
     {
         public int FeatureID { get; set; }
     }
+    public class FeatureWithCarsResultDto : FeatureResultDto
+    {
+        public List<CarResultDto> Cars { get; set; } = [];
+    }
 
 }

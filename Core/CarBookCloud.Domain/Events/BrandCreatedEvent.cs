@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace CarBookCloud.Domain.Events
 {
-    public class BrandCreatedEvent
+    public class BrandCreatedEvent(int brandID, string? name)
     {
-        public int BrandID { get; }
-        public string? Name { get; }
-        public BrandCreatedEvent(int brandID, string? name) { BrandID = brandID; Name = name; }
+        public int BrandID { get; } = brandID; public string? Name { get; } = name;
     }
 }
