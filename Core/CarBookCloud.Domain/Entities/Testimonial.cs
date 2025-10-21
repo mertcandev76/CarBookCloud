@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarBookCloud.Domain.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,7 @@ namespace CarBookCloud.Domain.Entities
         public string? Title { get; set; }
         public string? Comment { get; set; }
         public string? ImageUrl { get; set; }
+        public List<object> DomainEvents { get; } = [];
+        public Testimonial() => DomainEvents.Add(new TestimonialCreatedEvent(TestimonialID, Name));
     }
 }

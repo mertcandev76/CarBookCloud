@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarBookCloud.Domain.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,7 @@ namespace CarBookCloud.Domain.Entities
         public int PricingID { get; set; }
         public string? Name { get; set; }
         public ICollection<CarPricing> CarPricings { get; set; } = [];
+        public List<object> DomainEvents { get; } = [];
+        public Pricing() => DomainEvents.Add(new PricingCreatedEvent(PricingID, Name));
     }
 }

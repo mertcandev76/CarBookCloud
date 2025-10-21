@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CarBookCloud.Domain.Events;
+using CarBookCloud.Domain.ValueObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,11 @@ namespace CarBookCloud.Domain.Entities
         public Car? Car { get; set; }
         public int PricingID { get; set; }
         public Pricing? Pricing { get; set; }
-        public decimal Amount { get; set; }
+        public Price Amount { get; set; }
+
+        public CarPricing(Price amount)
+        {
+            Amount = amount;
+        }
     }
 }
