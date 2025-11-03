@@ -1,5 +1,5 @@
-﻿using CarBookCloud.Contracts.DTOs;
-using CarBookCloud.Contracts.Repositories;
+﻿using CarBookCloud.Contracts.Repositories;
+using CarBookCloud.Domain.Entities;
 using CarBookCloud.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,39 +10,23 @@ using System.Threading.Tasks;
 
 namespace CarBookCloud.Persistence.Repositories
 {
-    public class PricingRepository(AppDbContext context) : BaseRepository(context), IPricingRepository
+    public class PricingRepository : RepositoryBase<Pricing>, IPricingRepository
     {
-        public async Task<PricingWithCarsResultDto?> GetPricingWithCarsAsync(int pricingId)
+        public PricingRepository(AppDbContext context) : base(context) { }
+
+        // Opsiyonel: Pricing + CarPricings include’lu
+        public async Task<Pricing?> GetByIdWithIncludesAsync(int id)
         {
             return await _context.Pricings
-                .AsNoTracking()
-                .Where(p => p.PricingID == pricingId)
-                .Select(p => new PricingWithCarsResultDto
-                {
-                    PricingID = p.PricingID,
-                    Name = p.Name,
-                    Cars = p.CarPricings
-                        .Where(cp => cp.Car != null)
-                        .Select(cp => cp.Car!)
-                        .Select(c => new CarResultDto
-                        {
-                            CarID = c.CarID,
-                            BrandID = c.BrandID,
-                            Model = c.Model,
-                            CoverImageUrl = c.CoverImageUrl,
-                            Km = c.Km,
-                            Transmission = c.Transmission,
-                            Seat = c.Seat,
-                            Lugage = c.Lugage,
-                            Fuel = c.Fuel,
-                            BigImageUrl = c.BigImageUrl,
-                            CarFeatures = new List<CarFeatureResultDto>(),
-                            CarDescriptions = new List<CarDescriptionResultDto>(),
-                            CarPricings = new List<CarPricingResultDto>()
-                        })
-                        .ToList()
-                })
-                .FirstOrDefaultAsync();
+                .Include(p => p.CarPricings)
+                .FirstOrDefaultAsync(p => p.PricingID == id);
+        }
+
+        public async Task<List<Pricing>> GetAllWithIncludesAsync()
+        {
+            return await _context.Pricings
+                .Include(p => p.CarPricings)
+                .ToListAsync();
         }
     }
 }

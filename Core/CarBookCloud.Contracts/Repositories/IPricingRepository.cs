@@ -1,15 +1,15 @@
-﻿using System;
+﻿using CarBookCloud.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CarBookCloud.Contracts.DTOs;
-
 
 namespace CarBookCloud.Contracts.Repositories
 {
-    public interface IPricingRepository 
+    public interface IPricingRepository : IRepository<Pricing>
     {
-        Task<PricingWithCarsResultDto?> GetPricingWithCarsAsync(int pricingId);
+        Task<Pricing?> GetByIdWithIncludesAsync(int id);
+        Task<List<Pricing>> GetAllWithIncludesAsync();
     }
 }

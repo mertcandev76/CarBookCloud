@@ -1,4 +1,5 @@
 ﻿using CarBookCloud.Domain.Entities;
+using CarBookCloud.Domain.Events;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -34,11 +35,31 @@ namespace CarBookCloud.Persistence.Contexts
         public DbSet<SocialMedia> SocialMedias => Set<SocialMedia>();
         public DbSet<Testimonial> Testimonials => Set<Testimonial>();
 
+        // -----------------
+        // Model Configuration
+        // -----------------
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Aggregate Root ilişkileri
+            // -----------------
+            // Domain Events Ignore
+            // -----------------
+            modelBuilder.Ignore<IDomainEvent>();
+            modelBuilder.Ignore<List<IDomainEvent>>();
+
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                if (typeof(IHasDomainEvents).IsAssignableFrom(entityType.ClrType))
+                {
+                    modelBuilder.Entity(entityType.ClrType)
+                        .Ignore(nameof(IHasDomainEvents.DomainEvents));
+                }
+            }
+
+            // -----------------
+            // Relationships
+            // -----------------
             modelBuilder.Entity<Brand>()
                 .HasMany(b => b.Cars)
                 .WithOne(c => c.Brand)
@@ -64,14 +85,22 @@ namespace CarBookCloud.Persistence.Contexts
                 .OnDelete(DeleteBehavior.Cascade);
 
             // -----------------
-            // Value Object mapping
+            // Value Object Mapping (Price)
             // -----------------
             modelBuilder.Entity<CarPricing>(eb =>
             {
-                eb.OwnsOne(cp => cp.Amount); // Price value object'ini owned type olarak map et
+                eb.OwnsOne(cp => cp.Amount, a =>
+                {
+                    a.Property(p => p.Amount)
+                     .HasColumnName("AmountValue")
+                     .IsRequired();
+                });
             });
 
-            // Diğer entity Fluent API ayarları...
+            // -----------------
+            // Apply Configurations (optional but recommended)
+            // -----------------
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
     }
 }

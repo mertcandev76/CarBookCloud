@@ -11,18 +11,41 @@ namespace CarBookCloud.Domain.Entities
     // Aggregate Root: Brand
     // Alt Entity: Car (Car bağımsız root)
     // -----------------------------
-    public class Brand
+    public class Brand : IHasDomainEvents
     {
-        public int BrandID { get; set; }
-        public string? Name { get; set; }
-        public ICollection<Car> Cars { get; set; } = [];
+        public int BrandID { get; private set; }
+        public string Name { get; private set; } = string.Empty;
+        public ICollection<Car> Cars { get; private set; } = [];
 
-        public List<object> DomainEvents { get; } = [];
+        private readonly List<IDomainEvent> _domainEvents = [];
+        public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
-        public Brand()
+        private Brand() { } 
+
+        private Brand(string name)
         {
-            DomainEvents.Add(new BrandCreatedEvent(BrandID, Name));
+            SetName(name);
         }
+
+        public static Brand Create(string name)
+        {
+            var brand = new Brand(name);
+            brand._domainEvents.Add(new BrandCreatedEvent(brand.BrandID, brand.Name));
+            return brand;
+        }
+        public void SetName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Marka adı boş olamaz.", nameof(name));
+
+            bool isUpdated = BrandID > 0 && Name != name;
+            Name = name;
+
+            if (isUpdated)
+                _domainEvents.Add(new BrandNameChangedEvent(BrandID, Name));
+        }
+
+        public void ClearDomainEvents() => _domainEvents.Clear();
     }
 
 }

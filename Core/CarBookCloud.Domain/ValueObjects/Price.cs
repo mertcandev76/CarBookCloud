@@ -10,12 +10,13 @@ namespace CarBookCloud.Domain.ValueObjects
     {
         public decimal Amount { get; private set; }
 
-        // EF Core için parametresiz constructor
-        private Price() { }
+        private Price() { } // EF Core için
 
         public Price(decimal amount)
         {
-            if (amount < 0) throw new ArgumentException("Fiyat negatif olamaz.");
+            if (amount < 0)
+                throw new ArgumentException("Fiyat negatif olamaz.");
+
             Amount = amount;
         }
 

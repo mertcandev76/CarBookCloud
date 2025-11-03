@@ -1,16 +1,15 @@
-﻿using System;
+﻿using CarBookCloud.Domain.Entities;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using CarBookCloud.Contracts.DTOs;
 
 namespace CarBookCloud.Contracts.Repositories
 {
-    // ------------------------------
-    // Aggregate Root Repositories
-    // ------------------------------
-    public interface ICarRepository
+    public interface ICarRepository : IRepository<Car>
     {
-        Task<CarResultDto?> GetCarWithDetailsAsync(int carId);
-        Task<IReadOnlyList<CarResultDto>> GetCarsByBrandAsync(int brandId);
+        Task<Car?> GetByIdWithIncludesAsync(int id);
+        Task<List<Car>> GetAllWithIncludesAsync();
     }
 }

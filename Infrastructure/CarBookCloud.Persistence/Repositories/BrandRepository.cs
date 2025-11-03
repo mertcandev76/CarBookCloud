@@ -1,5 +1,5 @@
-﻿using CarBookCloud.Contracts.DTOs;
-using CarBookCloud.Contracts.Repositories;
+﻿using CarBookCloud.Contracts.Repositories;
+using CarBookCloud.Domain.Entities;
 using CarBookCloud.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,37 +10,23 @@ using System.Threading.Tasks;
 
 namespace CarBookCloud.Persistence.Repositories
 {
-    public class BrandRepository(AppDbContext context) : BaseRepository(context), IBrandRepository
+    public class BrandRepository : RepositoryBase<Brand>, IBrandRepository
     {
-        public async Task<BrandResultDto?> GetBrandWithCarsAsync(int brandId)
+        public BrandRepository(AppDbContext context) : base(context) { }
+
+        public async Task<Brand?> GetByIdWithIncludesAsync(int id)
         {
             return await _context.Brands
-                .AsNoTracking()
-                .Where(b => b.BrandID == brandId)
-                .Select(b => new BrandResultDto
-                {
-                    BrandID = b.BrandID,
-                    Name = b.Name,
-                    Cars = b.Cars.Select(c => new CarResultDto
-                    {
-                        CarID = c.CarID,
-                        BrandID = c.BrandID,
-                        Model = c.Model,
-                        CoverImageUrl = c.CoverImageUrl,
-                        Km = c.Km,
-                        Transmission = c.Transmission,
-                        Seat = c.Seat,
-                        Lugage = c.Lugage,
-                        Fuel = c.Fuel,
-                        BigImageUrl = c.BigImageUrl,
+                .Include(b => b.Cars)
+                .FirstOrDefaultAsync(b => b.BrandID == id);
+        }
 
-                        // alt aggregate bilgileri burada minimal tutuluyor
-                        CarFeatures = new List<CarFeatureResultDto>(),
-                        CarDescriptions = new List<CarDescriptionResultDto>(),
-                        CarPricings = new List<CarPricingResultDto>()
-                    }).ToList()
-                })
-                .FirstOrDefaultAsync();
+        public async Task<List<Brand>> GetAllWithIncludesAsync()
+        {
+            return await _context.Brands
+                .Include(b => b.Cars)
+                .ToListAsync();
         }
     }
+
 }

@@ -1,4 +1,4 @@
-﻿using CarBookCloud.Contracts.DTOs;
+﻿using CarBookCloud.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace CarBookCloud.Contracts.Repositories
 {
-    public interface IBrandRepository 
+    public interface IBrandRepository : IRepository<Brand>
     {
-        Task<BrandResultDto?> GetBrandWithCarsAsync(int brandId);
+        Task<List<Brand>> GetAllWithIncludesAsync();
+        Task<Brand?> GetByIdWithIncludesAsync(int id);
     }
 }

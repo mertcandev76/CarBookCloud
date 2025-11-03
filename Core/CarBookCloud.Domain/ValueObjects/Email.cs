@@ -12,12 +12,14 @@ namespace CarBookCloud.Domain.ValueObjects
 
         public Email(string email)
         {
-            if (string.IsNullOrWhiteSpace(email) || !email.Contains('@'))
+            if (string.IsNullOrWhiteSpace(email) || !System.Text.RegularExpressions.Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
                 throw new ArgumentException("Geçersiz e-posta adresi.");
+
             Value = email;
         }
 
         public override bool Equals(object? obj) => obj is Email other && Value == other.Value;
         public override int GetHashCode() => Value.GetHashCode();
     }
+
 }

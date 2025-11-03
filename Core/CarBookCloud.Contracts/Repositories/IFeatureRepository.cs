@@ -1,4 +1,4 @@
-﻿using CarBookCloud.Contracts.DTOs;
+﻿using CarBookCloud.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace CarBookCloud.Contracts.Repositories
 {
-    public interface IFeatureRepository 
+    public interface IFeatureRepository : IRepository<Feature>
     {
-        Task<FeatureWithCarsResultDto?> GetFeatureWithCarsAsync(int featureId);
+        Task<Feature?> GetByIdWithIncludesAsync(int id);
+        Task<List<Feature>> GetAllWithIncludesAsync();
     }
 }

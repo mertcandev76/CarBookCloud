@@ -9,34 +9,34 @@ using System.Threading.Tasks;
 
 namespace CarBookCloud.Persistence.Repositories
 {
-    public class Repository<T>(AppDbContext context) : BaseRepository(context), IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
-        public async Task AddAsync(T entity)
+        protected readonly AppDbContext _context;
+
+        public Repository(AppDbContext context)
         {
-            await _context.Set<T>().AddAsync(entity);
-            await _context.SaveChangesAsync();
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task DeleteAsync(T entity)
+        public Task AddAsync(T entity)
+            => _context.Set<T>().AddAsync(entity).AsTask();
+
+        public Task DeleteAsync(T entity)
         {
             _context.Set<T>().Remove(entity);
-            await _context.SaveChangesAsync();
+            return Task.CompletedTask;
         }
 
-        public async Task<List<T>> GetAllAsync()
-        {
-            return await _context.Set<T>().ToListAsync();
-        }
+        public Task<List<T>> GetAllAsync()
+            => _context.Set<T>().ToListAsync();
 
-        public async Task<T?> GetByIdAsync(int id)
-        {
-            return await _context.Set<T>().FindAsync(id);
-        }
+        public Task<T?> GetByIdAsync(int id)
+            => _context.Set<T>().FindAsync(id).AsTask();
 
-        public async Task UpdateAsync(T entity)
+        public Task UpdateAsync(T entity)
         {
             _context.Set<T>().Update(entity);
-            await _context.SaveChangesAsync();
+            return Task.CompletedTask;
         }
     }
 }

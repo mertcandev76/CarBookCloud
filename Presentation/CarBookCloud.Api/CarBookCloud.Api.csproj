@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\CarBookCloud.Application\CarBookCloud.Application.csproj" />
     <ProjectReference Include="..\..\Core\CarBookCloud.Contracts\CarBookCloud.Contracts.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\CarBookCloud.Infrastructure\CarBookCloud.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
